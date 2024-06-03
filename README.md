@@ -14,7 +14,8 @@
 ## tao bang thong tin ve ngay nhan viec, nghi viec cua nhan vien
 ![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/f93088ee-add8-475d-bc32-bfd473c809d9)
 ## tao procedure tinh tong luong nhan vien: tong luong = ((so ngay cong / 30 ) + tien thuong - tru luong)
-/* USE QLshowroomAUTO;
+
+USE QLshowroomAUTO;
 GO
 CREATE PROCEDURE TinhTongLuong
     @TenNhanVien nvarchar(50),
@@ -43,9 +44,8 @@ BEGIN
 
     -- Trả về tổng lương
     SELECT @TongLuongNhan AS TongLuongNhan;
-END;
-GO
-*/
+	END;
+	GO
 
 ## Su dung thu tuc de tinh tong luong cho nhan vien
 ### EXEC TinhTongLuong @TenNhanVien = 'Nguyen Van Song',
@@ -56,4 +56,6 @@ GO
 
 ## ket qua 
 ![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/73436129-b072-462e-b01c-6022e57d1fd8)
-
+``` #inlcude
+	go
+```
