@@ -101,3 +101,6 @@ END;
 ```
 ## Thu xoa du lieu cua nhan vien
 ![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/30a182d3-9c61-4433-b4a0-223da8425653)
+## thu nhap du lieu ngay nghi viec cho nhan vien Ha Thanh Hai va chay exec procedure xoa thong tin de xem thu
+![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/5cb5cf2f-69a5-45b1-ab97-447f27464ede)
+![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/583dad94-c7a8-4160-9487-17f6a9ae1240)
