@@ -13,5 +13,47 @@
 ![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/76e11f43-8512-4027-84b5-4ef096b3ff10)
 ## tao bang thong tin ve ngay nhan viec, nghi viec cua nhan vien
 ![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/f93088ee-add8-475d-bc32-bfd473c809d9)
+## tao procedure tinh tong luong nhan vien: tong luong = ((so ngay cong / 30 ) + tien thuong - tru luong)
+/* USE QLshowroomAUTO;
+GO
+CREATE PROCEDURE TinhTongLuong
+    @TenNhanVien nvarchar(50),
+	@SoTaiKhoan int,
+    @SoNgayCong int,
+    @TruLuong int,
+    @TienThuong int
+AS
+BEGIN
+    DECLARE @LuongCoBan nvarchar(50);
+    DECLARE @TongLuongNhan nvarchar(50);
+    
+    -- Lấy lương cơ bản của nhân viên
+    SELECT @LuongCoBan = LuongCoBan FROM TienLuong WHERE TenNhanVien = @TenNhanVien;
 
+    -- Tính tổng lương
+    SET @TongLuongNhan = (@LuongCoBan / 30 * @SoNgayCong) + @TienThuong - @TruLuong;
+
+    -- Cập nhật tổng lương vào bảng TienLuong
+    UPDATE TienLuong
+    SET SoNgayCong = @SoNgayCong,
+        TruLuong = @TruLuong,
+        TienThuong = @TienThuong,
+        TongLuongNhan = @TongLuongNhan
+    WHERE TenNhanVien = @TenNhanVien;
+
+    -- Trả về tổng lương
+    SELECT @TongLuongNhan AS TongLuongNhan;
+END;
+GO
+*/
+
+## Su dung thu tuc de tinh tong luong cho nhan vien
+### EXEC TinhTongLuong @TenNhanVien = 'Nguyen Van Song',
+###                   @SoTaiKhoan = 10000123, 
+###                   @SoNgayCong = 26,      
+###                   @TruLuong = 1000000,   
+###                   @TienThuong = 500000;  
+
+## ket qua 
+![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/73436129-b072-462e-b01c-6022e57d1fd8)
 
