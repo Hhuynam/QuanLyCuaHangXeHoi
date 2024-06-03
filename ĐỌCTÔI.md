@@ -64,3 +64,40 @@ FROM TienLuong
 GROUP BY TenNhanVien;
 ```
 ![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/ccf44e7b-83b7-42fc-b6af-71a58d77c716)
+
+## Tao procedure de neu du lieu trong cot NgayNghiViec duoc cap nhat (tuc la da nghi viec) thi se xoa thong tin lien quan (so tai khoan, tien cong,...) o bang TienLuong
+```
+CREATE PROCEDURE XoaDuLieuNhanVien 
+    @TenNhanVien nvarchar(50)
+AS
+BEGIN
+    -- Kiểm tra xem cột NgayNghiViec của nhân viên đã được cập nhật chưa
+    DECLARE @NgayNghiViec nvarchar(50);
+    SELECT @NgayNghiViec = NgayNghiViec FROM TinhTrangDiLam WHERE TenNhanVien = @TenNhanVien;
+
+    IF @NgayNghiViec IS NOT NULL
+    BEGIN
+        -- Nếu NgayNghiViec không rỗng, xóa dữ liệu của nhân viên
+        UPDATE TienLuong
+        SET SoTaiKhoan = NULL,
+            SoNgayCong = NULL,
+            TienThuong = NULL,
+            TruLuong = NULL,
+            TongLuongNhan = NULL
+        WHERE TenNhanVien = @TenNhanVien;
+
+        -- Xóa thông tin nhân viên
+        DELETE FROM TinhTrangDiLam WHERE TenNhanVien = @TenNhanVien;
+        DELETE FROM ThongTinNhanVien WHERE TenNhanVien = @TenNhanVien;
+
+        PRINT 'Du lieu cua nhan vien ' + @TenNhanVien + ' da xoa vi nghi viec';
+    END
+    ELSE
+    BEGIN
+        PRINT 'khong co du lieu nghi viec cua nhan vien ' + @TenNhanVien + '.';
+    END
+END;
+
+```
+## Thu xoa du lieu cua nhan vien
+![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/30a182d3-9c61-4433-b4a0-223da8425653)
