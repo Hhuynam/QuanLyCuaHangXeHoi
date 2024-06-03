@@ -56,4 +56,11 @@ BEGIN
 
 ## ket qua 
 ![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/73436129-b072-462e-b01c-6022e57d1fd8)
-
+## toi se thu tao view de hien thi bang luong cua toan bo nhan vien
+```
+CREATE VIEW TongLuongNhanVien AS
+SELECT TenNhanVien, SUM((LuongCoBan / 30 * SoNgayCong) + TienThuong - TruLuong) AS TongLuong
+FROM TienLuong
+GROUP BY TenNhanVien;
+```
+![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/ccf44e7b-83b7-42fc-b6af-71a58d77c716)
