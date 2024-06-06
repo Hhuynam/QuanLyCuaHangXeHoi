@@ -12,6 +12,53 @@
 ## tao bang thong tin tien luong
 ![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/76e11f43-8512-4027-84b5-4ef096b3ff10)
 ## tao bang thong tin ve ngay nhan viec, nghi viec cua nhan vien
+
+## full source code: 
+```
+-- Tạo bảng TinhTrangDiLam
+CREATE TABLE TinhTrangDiLam (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    TenNhanVien NVARCHAR(50) NOT NULL,
+    MaNhanVien NVARCHAR(50) NOT NULL,
+    NgayNhanViec DATE,
+    NgayNghiViec DATE
+);
+
+-- Tạo bảng ThongTinNhanVien
+CREATE TABLE ThongTinNhanVien (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    TenNhanVien NVARCHAR(50) NOT NULL,
+    MaNhanVien NVARCHAR(50) NOT NULL,
+    ChucVu NVARCHAR(50),
+    SoDienThoai NVARCHAR(15),
+    GioiTinh NVARCHAR(10)
+);
+
+-- Tạo bảng ThongTinSanPham
+CREATE TABLE ThongTinSanPham (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    TenDongXe NVARCHAR(50),
+    MaSanPham NVARCHAR(50) NOT NULL,
+    NhaSanXuat NVARCHAR(50),
+    GiaNiemYet DECIMAL(18, 2),
+    SoLuongTrongKho INT,
+    MauSac NVARCHAR(50),
+	PhienBan NVARCHAR(50)
+);
+
+-- Tạo bảng TienLuong
+CREATE TABLE TienLuong (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    TenNhanVien NVARCHAR(50) NOT NULL,
+    SoTaiKhoan NVARCHAR(50),
+    SoNgayCong INT,
+    TruLuong INT,
+    TienThuong INT,
+    LuongCoBan DECIMAL(18, 2),
+    TongLuong DECIMAL(18, 2)
+);
+```
+
 ![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/f93088ee-add8-475d-bc32-bfd473c809d9)
 ## tao procedure tinh tong luong nhan vien: tong luong = ((so ngay cong / 30 ) + tien thuong - tru luong)
 
