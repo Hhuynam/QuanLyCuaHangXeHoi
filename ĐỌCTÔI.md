@@ -1,6 +1,24 @@
 # QuanLyCuaHangXeHoi
 ## Tacgia HaHuyNam K215480106063
 ### Ten De tai: Quan ly showroom O to
+## Mo ta bai toan
+## 1. Tao cac bang chua thong tin
+### Danh sach thong tin ve nhan vien(Ma nhan vien, ho va ten, chuc vu, so dien thoai, dia chi,...);
+### hang hoa (dong xe, mau sac, kieu dang,...); 
+### Ngay di lam / cham cong;
+### tinh trang lam viec ( dang di lam / nghi viec);
+### quan ly hang hoa trong kho: so luong xe trong kho, xe moi/ cu, dong xe ban chay nhat va nguoc lai ;...
+### dich vu cham soc xe, khach hang;
+### doanh thu: doanh so mua ban xe, dich vu di kem,...
+### hoa don: kem theo thong tin khach hang, ngay mua, ...
+### quan he doi tac: cac doanh nghiep dang thiet lap doi tac, nha cung cap,...
+### cac khoan chi phi duy tri doanh nghiep: nop thue, tien dien, chi phi thue mat bang,...
+## 2. tao cac thu tuc de hien thi thong tin theo yeu cau
+### Tim cac nhan vien dang di lam/ da nghi viec
+### Tong doanh thu tu tat ca cac nguon
+### Dong xe ban nhieu nhat trong mot thoi diem xac dinh (vi du trong quy 1 nam 2024)
+
+
 *File nop gom co file .md va file word (co kem hinh anh minh hoa)*
 ---------------------------------------------------------------------
 ![markdown](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/blob/main/diagramBaitaplon.jpg)
