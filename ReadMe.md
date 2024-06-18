@@ -75,9 +75,63 @@ CREATE TABLE TienLuong (
     LuongCoBan DECIMAL(18, 2),
     TongLuong DECIMAL(18, 2)
 );
-```
 
+-- Tạo bảng Quảng Lý Kho để quản lý kho chứa hàng hóa
+CREATE TABLE QuanLyKho (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    MaSanPham NVARCHAR(50) NOT NULL,
+    SoLuong INT,
+    FOREIGN KEY (MaSanPham) REFERENCES HangHoa(MaSanPham)
+);
+
+-- Tạo bảng dịch vụ để chứa thông tin dịch vụ chăm sóc xe, khách hàng,...
+CREATE TABLE DichVu (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    MaKhachHang NVARCHAR(50),
+    LoaiDichVu NVARCHAR(100),
+    ChiPhi DECIMAL(18, 2),
+    NgaySuDung DATE
+);
+
+-- Tạo bảng Doanh thu về thông tin doanh thu
+CREATE TABLE DichVu (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    MaKhachHang NVARCHAR(50),
+    LoaiDichVu NVARCHAR(100),
+    ChiPhi DECIMAL(18, 2),
+    NgaySuDung DATE
+);
+
+-- Tạo bảng Hóa đơn để chứa thông tin về hóa đơn các loại
+CREATE TABLE DichVu (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    MaKhachHang NVARCHAR(50),
+    LoaiDichVu NVARCHAR(100),
+    ChiPhi DECIMAL(18, 2),
+    NgaySuDung DATE
+);
+
+-- Tạo bảng Đối tác để chứa thông tin về dối tác và các nhà cung cấp,...
+CREATE TABLE DichVu (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    MaKhachHang NVARCHAR(50),
+    LoaiDichVu NVARCHAR(100),
+    ChiPhi DECIMAL(18, 2),
+    NgaySuDung DATE
+);
+
+-- Bảng Chi phí gồm các chi phí duy trì doanh nghiệp
+CREATE TABLE DichVu (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    MaKhachHang NVARCHAR(50),
+    LoaiDichVu NVARCHAR(100),
+    ChiPhi DECIMAL(18, 2),
+    NgaySuDung DATE
+);
+
+```
 ![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/f93088ee-add8-475d-bc32-bfd473c809d9)
+# Tạo các thủ tục - Procedure để hiển thị thông tin 
 ## tao procedure tinh tong luong nhan vien: tong luong = ((so ngay cong / 30 ) + tien thuong - tru luong)
 
 USE QLshowroomAUTO;
@@ -130,6 +184,32 @@ GROUP BY TenNhanVien;
 ```
 ![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/ccf44e7b-83b7-42fc-b6af-71a58d77c716)
 
+## Tổng doanh thu từ các nguồn
+```
+CREATE PROCEDURE TongDoanhThu
+AS
+BEGIN
+    SELECT SUM(DoanhSo) AS TongDoanhThu
+    FROM DoanhThu;
+END;
+```
+
+## Dòng xe bán nhiều nhất trong một thời điểm xác định (ví dụ: quý 1 năm 2024)
+```
+CREATE PROCEDURE DongXeBanNhieuNhat
+    @StartDate DATE,
+    @EndDate DATE
+AS
+BEGIN
+    SELECT TOP 1 hh.TenDongXe, COUNT(dt.MaSanPham) AS SoLuongBan
+    FROM DoanhThu dt
+    JOIN HangHoa hh ON dt.MaSanPham = hh.MaSanPham
+    WHERE dt.NgayBan BETWEEN @StartDate AND @EndDate
+    GROUP BY hh.TenDongXe
+    ORDER BY SoLuongBan DESC;
+END;
+
+```
 ## Tao procedure de neu du lieu trong cot NgayNghiViec duoc cap nhat (tuc la da nghi viec) thi se xoa thong tin lien quan (so tai khoan, tien cong,...) o bang TienLuong
 ```
 CREATE PROCEDURE XoaDuLieuNhanVien 
@@ -169,3 +249,110 @@ END;
 ## thu nhap du lieu ngay nghi viec cho nhan vien Ha Thanh Hai va chay exec procedure xoa thong tin de xem thu
 ![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/5cb5cf2f-69a5-45b1-ab97-447f27464ede)
 ![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/583dad94-c7a8-4160-9487-17f6a9ae1240)
+# tạo cursor để hiển thị danh sách nhân viên giới tính nam
+```
+-- Khai báo biến để lưu trữ dữ liệu được truy xuất từ cursor
+DECLARE @TenNhanVien NVARCHAR(100);
+DECLARE @GioiTinh NVARCHAR(10);
+
+-- Khai báo cursor
+DECLARE cursor_NhanVienNam CURSOR FOR
+SELECT TenNhanVien, GioiTinh 
+FROM dbo.ThongTinNhanVien 
+WHERE GioiTinh = 'Nam';
+
+-- Mở cursor
+OPEN cursor_NhanVienNam;
+
+-- Truy xuất dữ liệu từng hàng từ cursor
+FETCH NEXT FROM cursor_NhanVienNam INTO @TenNhanVien, @GioiTinh;
+
+-- Sử dụng vòng lặp để lặp qua các hàng dữ liệu
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    -- Hiển thị dữ liệu (hoặc bạn có thể thực hiện các xử lý khác)
+    PRINT 'Tên Nhân Viên: ' + @TenNhanVien + ', Giới Tính: ' + @GioiTinh;
+
+    -- Truy xuất hàng tiếp theo
+    FETCH NEXT FROM cursor_NhanVienNam INTO @TenNhanVien, @GioiTinh;
+END
+
+-- Đóng cursor
+CLOSE cursor_NhanVienNam;
+
+-- Hủy cursor
+DEALLOCATE cursor_NhanVienNam;
+```
+![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/b333d785-3d80-4c42-962a-e501b9b94017)
+
+##  tạo cursor để hiển thị danh sách nhân viên giới tính nữ
+```
+-- Khai báo biến để lưu trữ dữ liệu được truy xuất từ cursor
+DECLARE @TenNhanVien NVARCHAR(100);
+DECLARE @GioiTinh NVARCHAR(10);
+
+-- Khai báo cursor
+DECLARE cursor_NhanVienNu CURSOR FOR
+SELECT TenNhanVien, GioiTinh 
+FROM dbo.ThongTinNhanVien 
+WHERE GioiTinh = 'Nu';
+
+-- Mở cursor
+OPEN cursor_NhanVienNu;
+
+-- Truy xuất dữ liệu từng hàng từ cursor
+FETCH NEXT FROM cursor_NhanVienNu INTO @TenNhanVien, @GioiTinh;
+
+-- Sử dụng vòng lặp để lặp qua các hàng dữ liệu
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    -- Hiển thị dữ liệu (hoặc bạn có thể thực hiện các xử lý khác)
+    PRINT 'Tên Nhân Viên: ' + @TenNhanVien + ', Giới Tính: ' + @GioiTinh;
+
+    -- Truy xuất hàng tiếp theo
+    FETCH NEXT FROM cursor_NhanVienNu INTO @TenNhanVien, @GioiTinh;
+END
+
+-- Đóng cursor
+CLOSE cursor_NhanVienNu;
+
+-- Hủy cursor
+DEALLOCATE cursor_NhanVienNu;
+```
+![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/197adebe-715d-47fc-9a6c-61e726b0749c)
+# tao trigger de nhap so ngay cong va tinh luong vao tong luong trong bang tien luong
+```
+CREATE TRIGGER tongLuong
+ON dbo.TienLuong
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    -- Biến để lưu trữ giá trị từ bảng INSERTED
+    DECLARE @id INT;
+    DECLARE @SoNgayCong INT;
+    DECLARE @TienThuong DECIMAL(18, 2);
+    DECLARE @TruLuong DECIMAL(18, 2);
+    DECLARE @LuongCoBan DECIMAL(18, 2);
+    DECLARE @TongLuong DECIMAL(18, 2);
+    
+    -- Truy xuất giá trị từ bảng INSERTED
+    SELECT @id = i.id, 
+           @SoNgayCong = i.SoNgayCong,
+           @TienThuong = i.TienThuong,
+           @TruLuong = i.TruLuong,
+           @LuongCoBan = i.LuongCoBan
+    FROM INSERTED i;
+
+    -- Tính toán lương tổng cộng
+    SET @TongLuong = (@LuongCoBan * @SoNgayCong) + @TienThuong - @TruLuong;
+
+    -- Cập nhật lương trong bảng TienLuong
+    UPDATE dbo.TienLuong
+    SET TongLuongNhan = @TongLuong
+    WHERE id = @id;
+END;
+```
+![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/27734151-c282-4b54-ba51-7993c11ca8cc)
+## kiem tra thay doi du lieu trong bang: da tinh tong luong
+![image](https://github.com/Hhuynam/QuanLyCuaHangXeHoi/assets/130531037/5ed2b831-3ec1-47bd-a749-bbb5bbe8a85a)
+
